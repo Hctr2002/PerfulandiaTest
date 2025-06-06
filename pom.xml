@@ -8,6 +8,7 @@
     <module>microservice-eureka</module>
     <module>microservice-gateway</module>
     <module>microservice-usuario</module>
+    <module>microservice-venta</module>
   </modules>
 
   <parent>
