@@ -25,22 +25,37 @@ import com.microservice.venta.dto.VentaDTO;
 import com.microservice.venta.model.Venta;
 import com.microservice.venta.service.VentaService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/ventas")
+@Tag(name = "Ventas", description = "Operaciones relacionadas con las ventas")
 public class VentaController {
 
     @Autowired
     private VentaService ventaService;
 
     //localhost:9090/api/v1/ventas/listar
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Ventas no encontradas")
+    })
+    @Operation(summary = "Obtener todas las ventas", description ="Obtiene una lista de todas las ventas")
     @GetMapping("/listar")
     public List<Venta> getAllUsers() {
         return ventaService.findAll();
     }
 
     //localhost:9090/api/v1/ventas/{id_venta}
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Venta no encontrada")
+    })
+    @Operation(summary = "Obtener venta por codigo", description ="Obtiene la venta deseada por codigo")
     @GetMapping("/{id_venta}")
     public ResponseEntity<?> getVentaById(@PathVariable Integer id_venta) {
         
@@ -74,7 +89,8 @@ public class VentaController {
 
     }
 
-
+    @ApiResponse(responseCode = "200", description = "Operación exitosa")
+    @Operation(summary = "Crear venta", description ="Ingresa una venta nueva")
     @PostMapping
         public ResponseEntity<?> save(@Valid @RequestBody VentaDTO ventaDTO) {
         try{
@@ -117,7 +133,12 @@ public class VentaController {
 
 
     //localhost:9090/api/v1/ventas/{id_venta}
-    @PutMapping("{id_venta}")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Venta no encontrada")
+    })
+    @Operation(summary = "Actualizar venta", description ="Actualiza una venta existente")
+    @PutMapping("/{id_venta}")
     public ResponseEntity<VentaDTO> update(@PathVariable int id_venta, @RequestBody VentaDTO ventaDTO) {
         try {
             
@@ -151,6 +172,11 @@ public class VentaController {
 
 
     //localhost:9090/api/v1/ventas/{id_venta}
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Venta no encontrada")
+    })
+    @Operation(summary = "Eliminar venta", description ="Elimina una venta")
     @DeleteMapping("/{id_venta}")
     public ResponseEntity<?> eliminar(@PathVariable int id_venta){
         try{

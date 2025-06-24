@@ -25,23 +25,38 @@ import com.microservice.usuario.microservice_usuario.dto.UsuarioDTO;
 import com.microservice.usuario.microservice_usuario.model.Usuario;
 import com.microservice.usuario.microservice_usuario.service.UsuarioService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 
 @RestController
 @RequestMapping("/api/v1/usuarios")
+@Tag(name = "Usuarios", description = "Operaciones relacionadas con los usuarios")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
     //localhost:8090/api/v1/usuarios/listar
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Usuarios no encontrados")
+    })
+    @Operation(summary = "Obtener todos los usuarios", description ="Obtiene una lista de todos los usuarios")
     @GetMapping("/listar")
     public List<Usuario> getAllUsers() {
         return usuarioService.findAll();
     }
     
     //localhost:8090/api/v1/usuarios/{id_usuario}
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+    })
+    @Operation(summary = "Obtener usuario por codigo", description ="Obtiene al usuario deseado por codigo")
     @GetMapping("/{id_usuario}")
     public ResponseEntity<?> getUserById(@PathVariable Integer id_usuario) {
         
@@ -72,6 +87,8 @@ public class UsuarioController {
 
     }
 
+    @ApiResponse(responseCode = "200", description = "Operación exitosa")
+    @Operation(summary = "Crear usuario", description ="ingresa un usuario nuevo")
     @PostMapping
     public ResponseEntity<?> save(@Valid @RequestBody UsuarioDTO usuarioDTO) {
         try{
@@ -109,6 +126,11 @@ public class UsuarioController {
     
 
     //localhost:8090/api/v1/usuarios/{id_usuario}
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+    })
+    @Operation(summary = "Actualizar usuario", description ="Actualiza un usuario existente")
     @PutMapping("{id_usuario}")
     public ResponseEntity<UsuarioDTO> update(@PathVariable int id_usuario, @RequestBody UsuarioDTO usuarioDTO) {
         try {
@@ -138,6 +160,11 @@ public class UsuarioController {
     }
 
     //localhost:8090/api/v1/usuarios/{id_usuario}
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Usuario no encontrada")
+    })
+    @Operation(summary = "Eliminar usuario", description ="Elimina un usuario")
     @DeleteMapping("/{id_usuario}")
     public ResponseEntity<?> eliminar(@PathVariable int id_usuario){
         try{
