@@ -1,14 +1,5 @@
 package com.microservice.venta;
 
-import org.springframework.boot.CommandLineRunner;
-
-import net.datafaker.Faker;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
-
-import com.microservice.venta.model.Venta;
-import com.microservice.venta.repository.VentaRepository;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -21,6 +12,14 @@ import java.util.Random;
 import java.util.Set;
 
 import javax.sql.DataSource;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import com.microservice.venta.model.Venta;
+import com.microservice.venta.repository.VentaRepository;
+
+import net.datafaker.Faker;
 
 @Component
 public class DataLoader implements CommandLineRunner{
