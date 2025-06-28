@@ -2,7 +2,6 @@ package com.microservice.usuario.microservice_usuario;
 
 import org.springframework.boot.CommandLineRunner;
 import net.datafaker.Faker;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.microservice.usuario.microservice_usuario.model.Usuario;
@@ -24,10 +23,6 @@ public class DataLoader implements CommandLineRunner{
 
     @Override
     public void run(String... args) {
-        if (usuarioRepository.count() > 0) {
-            System.out.println("🟡 Usuarios ya existen en la base de datos. Se omite carga inicial.");
-            return;
-        }
 
         Faker faker = new Faker(new Locale("es"));
         Random random = new Random();

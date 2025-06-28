@@ -34,10 +34,6 @@ public class DataLoader implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        if (ventaRepository.count() > 0) {
-            System.out.println("🟡 Ventas ya cargadas. Se omite la carga inicial.");
-            return;
-        }
 
         // Obtener IDs de usuarios
         List<Integer> idUsuarios = new ArrayList<>();
@@ -48,11 +44,6 @@ public class DataLoader implements CommandLineRunner{
             while (rs.next()) {
                 idUsuarios.add(rs.getInt("id_usuario"));
             }
-        }
-
-        if (idUsuarios.isEmpty()) {
-            System.out.println("⚠️ No hay usuarios en la base de datos. No se pueden generar ventas.");
-            return;
         }
 
         Faker faker = new Faker(new Locale("es"));
