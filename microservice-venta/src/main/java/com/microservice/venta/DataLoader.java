@@ -61,7 +61,7 @@ public class DataLoader implements CommandLineRunner{
             int total = cantidad * precio;
 
             Venta venta = Venta.builder()
-                    .id_usuario(idUsuarios.get(random.nextInt(idUsuarios.size())))
+                    .idUsuario(idUsuarios.get(random.nextInt(idUsuarios.size())))
                     .nroBoleta(nroBoleta)
                     .fechaCompra(LocalDate.now().minusDays(random.nextInt(30)).toString())
                     .producto(faker.commerce().productName())

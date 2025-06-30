@@ -38,4 +38,9 @@ public class VentaService {
         ventaRepository.deleteById(id_venta);
     }
 
+    public List<Venta> getVentasByUsuarioId(Integer idUsuario) {
+        return ventaRepository.findByIdUsuario(idUsuario);
+    }
+
+
 }

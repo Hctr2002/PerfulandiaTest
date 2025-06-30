@@ -65,7 +65,7 @@ public class VentaController {
             
             VentaDTO dto = new VentaDTO();
             dto.setId_venta(venta.get().getId_venta());
-            dto.setId_usuario(venta.get().getId_usuario());
+            dto.setId_usuario(venta.get().getIdUsuario());
             dto.setNroBoleta(venta.get().getNroBoleta());
             dto.setFechaCompra(venta.get().getFechaCompra());
             dto.setProducto(venta.get().getProducto());
@@ -96,7 +96,7 @@ public class VentaController {
         try{
 
             Venta venta = new Venta();
-            venta.setId_usuario(ventaDTO.getId_usuario());
+            venta.setIdUsuario(ventaDTO.getId_usuario());
             venta.setNroBoleta(ventaDTO.getNroBoleta());
             venta.setFechaCompra(ventaDTO.getFechaCompra());
             venta.setProducto(ventaDTO.getProducto());
@@ -107,7 +107,7 @@ public class VentaController {
 
             VentaDTO responseDTO = new VentaDTO();
             responseDTO.setId_venta(ventaGuardada.getId_venta());
-            responseDTO.setId_usuario(ventaGuardada.getId_usuario());
+            responseDTO.setId_usuario(ventaGuardada.getIdUsuario());
             responseDTO.setNroBoleta(ventaGuardada.getNroBoleta());
             responseDTO.setFechaCompra(ventaGuardada.getFechaCompra());
             responseDTO.setProducto(ventaGuardada.getProducto());
@@ -144,7 +144,7 @@ public class VentaController {
             
             Venta venta = new Venta();
             venta.setId_venta(id_venta);
-            venta.setId_usuario(ventaDTO.getId_usuario());
+            venta.setIdUsuario(ventaDTO.getId_usuario());
             venta.setNroBoleta(ventaDTO.getNroBoleta());
             venta.setFechaCompra(ventaDTO.getFechaCompra());
             venta.setProducto(ventaDTO.getProducto());
@@ -155,7 +155,7 @@ public class VentaController {
         
             VentaDTO responseDTO = new VentaDTO();
             responseDTO.setId_venta(ventaActualizada.getId_venta());
-            responseDTO.setId_usuario(ventaActualizada.getId_usuario());
+            responseDTO.setId_usuario(ventaActualizada.getIdUsuario());
             responseDTO.setNroBoleta(ventaActualizada.getNroBoleta());
             responseDTO.setFechaCompra(ventaActualizada.getFechaCompra());
             responseDTO.setProducto(ventaActualizada.getProducto());
@@ -188,4 +188,22 @@ public class VentaController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @Operation(summary = "Obtener ventas por ID de usuario", description = "Lista todas las ventas asociadas a un usuario")
+    @GetMapping("/usuario/{id_usuario}")
+    public ResponseEntity<?> getVentasByUsuarioId(@PathVariable Integer id_usuario) {
+        List<Venta> ventas = ventaService.getVentasByUsuarioId(id_usuario);
+
+        if (ventas.isEmpty()) {
+            Map<String, String> body = new HashMap<>();
+            body.put("message", "No se encontraron ventas para el usuario con ID: " + id_usuario);
+            body.put("status", "404");
+            body.put("timestamp", LocalDateTime.now().toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+        }
+
+        return ResponseEntity.ok(ventas);
+    }
+
+
 }

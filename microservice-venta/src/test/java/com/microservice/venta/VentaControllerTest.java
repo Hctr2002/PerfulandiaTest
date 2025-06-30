@@ -60,7 +60,7 @@ public class VentaControllerTest {
     void testGetVentaById_Existente() throws Exception {
         Venta venta = Venta.builder()
                 .id_venta(1)
-                .id_usuario(100)
+                .idUsuario(100)
                 .nroBoleta(123)
                 .fechaCompra("2025-06-26")
                 .producto("Producto Test")
@@ -103,7 +103,7 @@ public class VentaControllerTest {
 
         Venta ventaGuardada = Venta.builder()
                 .id_venta(1)
-                .id_usuario(dto.getId_usuario())
+                .idUsuario(dto.getId_usuario())
                 .nroBoleta(dto.getNroBoleta())
                 .fechaCompra(dto.getFechaCompra())
                 .producto(dto.getProducto())
@@ -157,7 +157,7 @@ public class VentaControllerTest {
 
         Venta ventaActualizada = Venta.builder()
                 .id_venta(1)
-                .id_usuario(dto.getId_usuario())
+                .idUsuario(dto.getId_usuario())
                 .nroBoleta(dto.getNroBoleta())
                 .fechaCompra(dto.getFechaCompra())
                 .producto(dto.getProducto())

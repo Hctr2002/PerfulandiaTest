@@ -26,7 +26,7 @@ public class Venta {
     private int id_venta;
 
     @Column(nullable=false)
-    private int id_usuario;
+    private int idUsuario;
 
     @Column(nullable=false, unique = true)
     private int nroBoleta;

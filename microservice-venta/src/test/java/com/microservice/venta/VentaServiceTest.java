@@ -35,7 +35,7 @@ public class VentaServiceTest {
     void testObtenerVentaPorIdExistente() {
         Venta venta = Venta.builder()
                 .id_venta(1)
-                .id_usuario(100)
+                .idUsuario(100)
                 .nroBoleta(1234)
                 .fechaCompra("2025-06-26")
                 .producto("Producto A")
@@ -56,7 +56,7 @@ public class VentaServiceTest {
     @Test
     void testGuardarVenta() {
         Venta venta = Venta.builder()
-                .id_usuario(100)
+                .idUsuario(100)
                 .nroBoleta(1235)
                 .fechaCompra("2025-06-26")
                 .producto("Producto B")
