@@ -1,27 +1,31 @@
 package com.microservice.venta.controller;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.microservice.venta.assemblers.ventaModelAssembler;
 import com.microservice.venta.model.Venta;
 import com.microservice.venta.service.VentaService;
 
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.http.HttpStatus;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v2/ventas")
+@Tag(name = "Ventas V2", description = "Operaciones relacionadas con las ventas")
 public class VentaControllerV2 {
 
     @Autowired
@@ -30,6 +34,11 @@ public class VentaControllerV2 {
     @Autowired
     private ventaModelAssembler ventaAssembler;
 
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Ventas no encontradas")
+    })
+    @Operation(summary = "Obtener ventas por id", description ="Obtiene la venta deseada por id")
     @GetMapping("/{id}")
     public EntityModel<Venta> getVentaById(@PathVariable int id) {
         Venta venta = ventaService.getVentaById(id)
@@ -37,6 +46,11 @@ public class VentaControllerV2 {
         return ventaAssembler.toModel(venta);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Ventas no encontradas")
+    })
+    @Operation(summary = "Obtener ventas por usuario", description ="Obtiene una lista de todas las ventas hechas por el usuario buscado")
     @GetMapping("/usuario/{id_usuario}")
     public CollectionModel<EntityModel<Venta>> getVentasByUsuario(@PathVariable int id_usuario) {
         List<EntityModel<Venta>> ventas = ventaService.getVentasByUsuarioId(id_usuario).stream()
@@ -47,6 +61,11 @@ public class VentaControllerV2 {
             linkTo(methodOn(VentaController.class).getVentasByUsuarioId(id_usuario)).withSelfRel());
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Ventas no encontradas")
+    })
+    @Operation(summary = "Obtener todas las ventas", description ="Obtiene una lista de todas las ventas")
     @GetMapping
     public CollectionModel<EntityModel<Venta>> getAllVentas() {
         List<EntityModel<Venta>> ventas = ventaService.findAll().stream()

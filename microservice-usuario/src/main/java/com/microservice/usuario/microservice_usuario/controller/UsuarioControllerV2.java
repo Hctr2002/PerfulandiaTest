@@ -18,8 +18,14 @@ import com.microservice.usuario.microservice_usuario.assemblers.usuarioModelAsse
 import com.microservice.usuario.microservice_usuario.model.Usuario;
 import com.microservice.usuario.microservice_usuario.service.UsuarioService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v2/usuarios")
+@Tag(name = "Usuarios V2", description = "Operaciones relacionadas con los usuarios")
 public class UsuarioControllerV2 {
 
     @Autowired
@@ -29,6 +35,11 @@ public class UsuarioControllerV2 {
     private usuarioModelAssembler usuarioAssembler;
 
     // Obtener usuario por ID con HATEOAS
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Usuarios no encontrados")
+    })
+    @Operation(summary = "Obtener usuario por id", description ="Obtiene el usuario deseado por su id")
     @GetMapping("/{id}")
     public EntityModel<Usuario> getUsuario(@PathVariable int id) {
         Usuario usuario = usuarioService.getUserById(id)
@@ -38,6 +49,11 @@ public class UsuarioControllerV2 {
     }
 
     // Obtener todos los usuarios con HATEOAS
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
+        @ApiResponse(responseCode = "404", description = "Usuarios no encontrados")
+    })
+    @Operation(summary = "Obtener todos los usuarios", description ="Obtiene una lista de todos los usuarios")
     @GetMapping
     public CollectionModel<EntityModel<Usuario>> getAllUsuarios() {
         List<EntityModel<Usuario>> usuarios = usuarioService.findAll().stream()
