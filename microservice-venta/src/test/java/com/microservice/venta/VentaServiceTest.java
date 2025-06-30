@@ -130,4 +130,16 @@ public class VentaServiceTest {
         verify(ventaRepository, times(1)).deleteById(id);
     }
 
+    @Test
+    void testGetVentasByUsuarioId() {
+        Venta venta = new Venta(); venta.setId_venta(1); venta.setIdUsuario(10);
+        when(ventaRepository.findByIdUsuario(10)).thenReturn(Arrays.asList(venta));
+
+        List<Venta> result = ventaService.getVentasByUsuarioId(10);
+
+        assertEquals(1, result.size());
+        assertEquals(10, result.get(0).getIdUsuario());
+        verify(ventaRepository).findByIdUsuario(10);
+    }
+
 }

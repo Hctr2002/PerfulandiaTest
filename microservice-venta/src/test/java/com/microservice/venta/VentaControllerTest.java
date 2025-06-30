@@ -1,10 +1,13 @@
 package com.microservice.venta;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import org.mockito.Mockito;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
@@ -215,6 +218,27 @@ public class VentaControllerTest {
             .andExpect(status().isNotFound());
 
         verify(ventaService, times(1)).delete(1);
+    }
+
+    @Test
+    void testGetVentasByUsuarioId_OK() throws Exception {
+        Venta venta1 = new Venta(1, 33, 555, "05/05/2025", "Perfume1Ejemplo", 1, 500);
+        Venta venta2 = new Venta(2, 33, 556, "06/05/2025", "Perfume2Ejemplo", 1, 600);
+        Mockito.when(ventaService.getVentasByUsuarioId(33)).thenReturn(List.of(venta1, venta2));
+
+        mockMvc.perform(get("/api/v1/ventas/usuario/33"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].producto").value("Perfume1Ejemplo"))
+            .andExpect(jsonPath("$[1].producto").value("Perfume2Ejemplo"));
+    }
+
+    @Test
+    void testGetVentasByUsuarioId_NotFound() throws Exception {
+        Mockito.when(ventaService.getVentasByUsuarioId(anyInt())).thenReturn(List.of());
+
+        mockMvc.perform(get("/api/v1/ventas/usuario/999"))
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.message").value("No se encontraron ventas para el usuario con ID: 999"));
     }
 
 }
