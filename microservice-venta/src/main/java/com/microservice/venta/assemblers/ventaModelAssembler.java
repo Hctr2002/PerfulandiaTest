@@ -19,7 +19,9 @@ public class ventaModelAssembler implements RepresentationModelAssembler<Venta, 
             linkTo(methodOn(VentaControllerV2.class).getVentaById(venta.getId_venta())).withSelfRel(),
             linkTo(methodOn(VentaControllerV2.class).getVentasByUsuario(venta.getIdUsuario())).withRel("ventas-del-usuario"),
             linkTo(methodOn(VentaControllerV2.class).getAllVentas()).withRel("todas-las-ventas"),
-            linkToUsuario(venta.getIdUsuario())
+            linkToUsuario(venta.getIdUsuario()),
+            linkTo(methodOn(VentaControllerV2.class).actualizarVenta(venta.getId_venta(), null)).withRel("actualizar"),
+            linkTo(methodOn(VentaControllerV2.class).eliminarVenta(venta.getId_venta())).withRel("eliminar")
         );
     }
 
