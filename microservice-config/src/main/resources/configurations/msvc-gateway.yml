@@ -22,6 +22,10 @@ spring:
           uri: http://localhost:9090
           predicates:
             - Path=/api/v1/ventas/**
+        - id: ventas2
+          uri: http://localhost:9090
+          predicates:
+            - Path=/api/v2/ventas/**
         # Estas rutas permiten acceder a Swagger desde el Gateway http://localhost:8080/swagger-ui.html
         - id: swagger-usuario
           uri: http://localhost:8090
