@@ -211,7 +211,7 @@ public class VentaControllerV2Test {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.mensaje").value("El Nro de Boleta ya está registrado"))
+            .andExpect(jsonPath("$.mensaje").value("El N° de boleta ya está registrado"))
             .andExpect(jsonPath("$.timestamp").exists());
     }
 
